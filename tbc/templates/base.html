@@ -311,6 +311,7 @@
             </div>
          
         {% endfor %}
+        </div>
     <br>
     <center> 
         <a  class="btn btn-primary" href="{% url 'tbc:BrowseBooks' %}">Browse All Books</a>
@@ -320,10 +321,10 @@
     <!-- 
         <input type=text> <input type=submit value=Search>
     -->
-  
+    {% endblock %}
       
       <h3 style='float: left;margin-left: 50px; display: inline-block;'>Showcased Books</h3>
-    </div>
+    
     {% get_taglist as tags for tbc.book %}
      <div style="clear:both;"></div>
       {% for item in items %}
@@ -334,7 +335,7 @@
             </div>
       {% endif %}
    {% endfor %}
-  {% endblock %}
+
     
       <hr>
       
