@@ -23,6 +23,7 @@ import subprocess
 from email.mime.text import MIMEText
 from bs4 import BeautifulSoup
 import urllib2 
+import time, os.path
 
 def add_log(user, object, flag, message, proposal_id=None, chat='No message'):
     '''Creates log entry of the user activities.'''
@@ -1218,8 +1219,15 @@ def ConvertNotebook(request, notebook_path=None):
     path = "/".join(path)+"/"
     os.chdir(path)
     try:
-        template = path+notebook_name+".html"
-        return render_to_response(template, {})
+        changed_time = time.ctime(os.path.getctime(path+notebook_name+".html"))
+        modified_time = time.ctime(os.path.getctime(path+notebook_name+".ipynb"))
+        if(changed_time > modified_time):
+                template = path+notebook_name+".html"
+                return render_to_response(template, {})
+        else:
+                os.popen("ipython nbconvert --to html \""+path+notebook_name+".ipynb\"")
+                template = path+notebook_name+".html"
+                return render_to_response(template, {})
     except:
         os.popen("ipython nbconvert --to html \""+path+notebook_name+".ipynb\"")
         template = path+notebook_name+".html"
