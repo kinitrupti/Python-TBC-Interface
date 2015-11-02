@@ -11,3 +11,7 @@ reportlab==3.1.8
 requests==2.6.0
 urllib3==1.10.2
 wsgiref==0.1.2
+django-hitcount
+django-taggit
+django-taggit-templatetags2
+

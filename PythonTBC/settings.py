@@ -140,6 +140,8 @@ INSTALLED_APPS = (
     'comments',
     'south',
     'hitcount',
+    'taggit',
+    'taggit_templatetags2',
 )
 
 # needed for django-hitcount to function properly

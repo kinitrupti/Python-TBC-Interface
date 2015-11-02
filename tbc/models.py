@@ -4,6 +4,7 @@ from PythonTBC import settings
 from django.contrib.admin.models import LogEntry
 from local import sitemap_path
 
+from taggit.managers import TaggableManager
 
 CATEGORY = (("fluid mechanics", "Fluid Mechanics"),
             ("control systems", "Control Theory & Control Systems"),
@@ -104,6 +105,7 @@ class Book(models.Model):
     contributor = models.ForeignKey(Profile)
     reviewer = models.ForeignKey(Reviewer)
     approved = models.BooleanField(default=False)
+    tags = TaggableManager()
     def __unicode__(self):
         name = self.title or 'Book'
         return '%s'%(name)

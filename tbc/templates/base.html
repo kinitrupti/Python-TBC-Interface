@@ -1,4 +1,6 @@
 {% load static %}
+{% load taggit_templatetags2_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -307,20 +309,37 @@
                 <a href="{% url 'tbc:BookDetails' item.book.id %}"><img src="{% static 'Python-Textbook-Companions/' %}{{ item.image.image }}"></a>
                 <center><a href="{% url 'tbc:BookDetails' item.book.id %}">{{ item.book.title }}</a></center>
             </div>
+         
         {% endfor %}
-    </div>
     <br>
     <center> 
         <a  class="btn btn-primary" href="{% url 'tbc:BrowseBooks' %}">Browse All Books</a>
     </center>
     <br>
+          
     <!-- 
         <input type=text> <input type=submit value=Search>
     -->
-    {% endblock %}
+  
+      
+      <h3 style='float: left;margin-left: 50px; display: inline-block;'>Showcased Books</h3>
+    </div>
+    {% get_taglist as tags for tbc.book %}
+     <div style="clear:both;"></div>
+      {% for item in items %}
+       {% if item.book.tags.all %}
+<div class ="module-list">
+                <a href="{% url 'tbc:BookDetails' item.book.id %}"><img src="{% static 'Python-Textbook-Companions/' %}{{ item.image.image }}"></a>
+                <center><a href="{% url 'tbc:BookDetails' item.book.id %}">{{ item.book.title }}</a></center>
+            </div>
+      {% endif %}
+   {% endfor %}
+  {% endblock %}
+    
       <hr>
       
       <footer>
+        <br><br>  <br><br>  <br><br>  <br><br>  <br><br>  <br><br>  <br><br>
         <center><p>&copy; FOSSEE - IIT Bombay 2014</p></center>
         <center><img src="{% static 'images/fossee.png' %}" width=100 height=70><br><br>
         <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</center>

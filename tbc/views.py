@@ -21,7 +21,8 @@ import random
 import json
 import subprocess
 from email.mime.text import MIMEText
-
+from bs4 import BeautifulSoup
+import urllib2 
 
 def add_log(user, object, flag, message, proposal_id=None, chat='No message'):
     '''Creates log entry of the user activities.'''
@@ -429,7 +430,15 @@ def SubmitCodeOld(request, book_id=None):
             dict['chapter'+str(i)] = chapter.name
             chapter.notebook = request.FILES['notebook'+str(i)]
             chapter.book = curr_book
-            chapter.save()
+            chp_src = BeautifulSoup(urllib2.urlopen("http://localhost:8000/convert-notebook/dff_by_ds/"+ chapter.name))
+            example_errors = chp_src.find_all('div', {'class': 'output_subarea output_text output_error'})
+            if example_errors:
+                   return HttpResponseRedirect("/profile/?update=profile")
+                   
+            elif not example_errors:   
+                  return HttpResponseRedirect("http://localhost:8000/")
+
+            
         for i in range(1, 4):
             screenshot = ScreenShots()
             screenshot.caption = request.POST['caption'+str(i)]
@@ -869,7 +878,12 @@ def SubmitCode(request):
                 chapter.notebook = request.FILES['notebook'+str(counter)]
                 dict['chapter'+str(counter)] = chapter.name
                 chapter.screen_shots.clear()
-                chapter.save()
+                chp_src = BeautifulSoup(urllib2.urlopen("http://localhost:8000/convert-notebook/dff_by_ds/"+ chapter.name))
+                example_errors = chp_src.find_all('div', {'class': 'output_subarea output_text output_error'})
+                if example_errors:
+                        return HttpResponseRedirect("/profile/?update=profile")
+                if not example_errors:   
+                        chapter.save()
                 counter += 1
             num_new_chapters = curr_book.no_chapters - old_chapter_count
             if num_new_chapters > 0:
@@ -878,7 +892,12 @@ def SubmitCode(request):
                     new_chapter.book = curr_book
                     new_chapter.name = request.POST['chapter'+str(counter)]
                     new_chapter.notebook = request.FILES['notebook'+str(counter)]
-                    new_chapter.save()
+                    chp_src = BeautifulSoup(urllib2.urlopen("http://localhost:8000/convert-notebook/dff_by_ds/"+ chapter.name))
+                    example_errors = chp_src.find_all('div', {'class': 'output_subarea output_text output_error'})
+                    if example_errors:
+                        return HttpResponseRedirect("/profile/?update=profile")
+                    if not example_errors:   
+                        new_chapter.save()
                     counter += 1
             counter = 1
             for screenshot in screen_shots:
