@@ -304,7 +304,7 @@
         <gcse:search></gcse:search>
     </div>
     <div style="clear:both;"></div>
-        {% for item in items %}
+        {% for item in items|slice:":6" %}
             <div class ="module-list">
                 <a href="{% url 'tbc:BookDetails' item.book.id %}"><img src="{% static 'Python-Textbook-Companions/' %}{{ item.image.image }}"></a>
                 <center><a href="{% url 'tbc:BookDetails' item.book.id %}">{{ item.book.title }}</a></center>
