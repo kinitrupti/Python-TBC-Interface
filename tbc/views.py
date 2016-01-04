@@ -121,7 +121,7 @@ def Home(request):
     if 'bookupdate' in request.GET:
         context['bookupdate'] =True
 
-    books = Book.objects.filter(approved=True).order_by("-id")[0:6]
+    books = Book.objects.filter(approved=True).order_by("-id")
     for book in books:
         try:
             images.append(ScreenShots.objects.filter(book=book)[0])
